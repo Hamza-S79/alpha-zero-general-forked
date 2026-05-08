@@ -93,6 +93,23 @@ class NNetWrapper(NeuralNet):
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
         return torch.exp(pi).data.cpu().numpy()[0], v.data.cpu().numpy()[0]
 
+    def predict_batch(self, boards):
+        """
+        boards: list of np arrays, each shape (board_x, board_y)
+        Returns:
+            pis: np.ndarray of shape (B, action_size)
+            vs:  np.ndarray of shape (B,)
+        One H2D copy, one forward pass, one D2H copy for the whole batch.
+        """
+        batch = torch.from_numpy(np.stack(boards).astype(np.float32))
+        if args.cuda:
+            batch = batch.contiguous().cuda(non_blocking=True)
+        batch = batch.view(-1, self.board_x, self.board_y)
+        self.nnet.eval()
+        with torch.no_grad():
+            log_pi, v = self.nnet(batch)
+        return torch.exp(log_pi).cpu().numpy(), v.view(-1).cpu().numpy()
+
     def loss_pi(self, targets, outputs):
         return -torch.sum(targets * outputs) / targets.size()[0]
 

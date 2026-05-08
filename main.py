@@ -26,6 +26,12 @@ args = dotdict({
     'load_folder_file': ('/dev/models/8x100x50','best.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 
+    # Batched MCTS (leaf-parallel virtual loss). Set useBatchedMCTS=True to enable.
+    'useBatchedMCTS': False,
+    'numParallelSims': 8,       # number of MCTS worker threads
+    'virtualLoss': 1.0,         # magnitude of virtual loss per in-flight visit
+    'evalBatchSize': 8,         # max leaves coalesced into one GPU forward pass
+    'evalTimeoutMs': 1.0,       # batcher grace window for partial batches (ms)
 })
 
 
