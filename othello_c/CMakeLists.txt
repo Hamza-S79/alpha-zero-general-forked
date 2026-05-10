@@ -30,10 +30,20 @@ add_link_options($<$<CONFIG:Debug>:-fsanitize=address,undefined>)
 # ---------------------------------------------------------------------------
 find_package(Threads REQUIRED)
 
-# ONNX Runtime (C API). Tries brew prefix first; otherwise honour
-# ONNXRUNTIME_ROOT_DIR. Linux + CUDA: install the GPU release tarball and set
-# ONNXRUNTIME_ROOT_DIR to its top-level directory.
+# ONNX Runtime (C API). Search order:
+#   1. -DONNXRUNTIME_ROOT_DIR=...          (CMake cache var)
+#   2. ONNXRUNTIME_ROOT_DIR env var
+#   3. brew --prefix onnxruntime           (macOS)
+#   4. extracted onnxruntime-*/ dir under the project root or the parent repo
+#      (e.g. when you ran `tar xz` next to CMakeLists.txt)
+#   5. system locations: /usr/local, /opt/onnxruntime
 set(_ORT_HINTS)
+if(ONNXRUNTIME_ROOT_DIR)
+    list(APPEND _ORT_HINTS "${ONNXRUNTIME_ROOT_DIR}")
+endif()
+if(DEFINED ENV{ONNXRUNTIME_ROOT_DIR})
+    list(APPEND _ORT_HINTS "$ENV{ONNXRUNTIME_ROOT_DIR}")
+endif()
 if(APPLE)
     execute_process(COMMAND brew --prefix onnxruntime
                     OUTPUT_VARIABLE _BREW_ORT
@@ -43,25 +53,40 @@ if(APPLE)
         list(APPEND _ORT_HINTS "${_BREW_ORT}")
     endif()
 endif()
-if(DEFINED ENV{ONNXRUNTIME_ROOT_DIR})
-    list(APPEND _ORT_HINTS "$ENV{ONNXRUNTIME_ROOT_DIR}")
-endif()
-if(ONNXRUNTIME_ROOT_DIR)
-    list(APPEND _ORT_HINTS "${ONNXRUNTIME_ROOT_DIR}")
-endif()
+# Extracted release tarball lying next to CMakeLists.txt (or in parent repo)
+file(GLOB _ORT_LOCAL_EXTRACTED
+     "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime-*"
+     "${CMAKE_CURRENT_SOURCE_DIR}/../onnxruntime-*"
+     "/content/onnxruntime-*"
+     "/usr/local/onnxruntime-*")
+foreach(_p ${_ORT_LOCAL_EXTRACTED})
+    if(IS_DIRECTORY "${_p}")
+        list(APPEND _ORT_HINTS "${_p}")
+    endif()
+endforeach()
+list(APPEND _ORT_HINTS /usr/local /opt/onnxruntime /usr)
 
 find_path(ONNXRUNTIME_INCLUDE_DIR
     NAMES onnxruntime_c_api.h
     HINTS ${_ORT_HINTS}
     PATH_SUFFIXES include include/onnxruntime onnxruntime
-    REQUIRED
 )
 find_library(ONNXRUNTIME_LIB
     NAMES onnxruntime
     HINTS ${_ORT_HINTS}
     PATH_SUFFIXES lib lib64
-    REQUIRED
 )
+if(NOT ONNXRUNTIME_INCLUDE_DIR OR NOT ONNXRUNTIME_LIB)
+    message(FATAL_ERROR
+        "ONNX Runtime not found.\n"
+        "  searched hints: ${_ORT_HINTS}\n"
+        "Fix one of:\n"
+        "  - cmake -DONNXRUNTIME_ROOT_DIR=/path/to/extracted/onnxruntime ...\n"
+        "  - export ONNXRUNTIME_ROOT_DIR=/path/to/extracted/onnxruntime\n"
+        "  - on macOS: brew install onnxruntime\n"
+        "On Colab, after `tar xz` the GPU tarball, point ONNXRUNTIME_ROOT_DIR\n"
+        "at the extracted onnxruntime-linux-x64-gpu-X.Y.Z/ directory.")
+endif()
 message(STATUS "ONNX Runtime header: ${ONNXRUNTIME_INCLUDE_DIR}")
 message(STATUS "ONNX Runtime lib   : ${ONNXRUNTIME_LIB}")
 
