@@ -78,7 +78,8 @@ def export_onnx(wrapper, onnx_path, n):
         def forward(self, x):
             return self.inner(x.squeeze(1))
 
-    model = _Wrap(wrapper.nnet).eval()
+    # Move to CPU for export — torch.onnx tracing uses a CPU sample tensor.
+    model = _Wrap(wrapper.nnet.cpu()).eval()
     sample = torch.zeros(1, 1, n, n, dtype=torch.float32)
     torch.onnx.export(
         model, sample, onnx_path,

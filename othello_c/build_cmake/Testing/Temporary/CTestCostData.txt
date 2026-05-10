@@ -1,0 +1,6 @@
+othello_rules 1 1.07638
+tree_sanity 1 0.69387
+nn_parity 1 0.820238
+mcts_serial_parity 1 0.806802
+mcts_threaded 1 2.09939
+---

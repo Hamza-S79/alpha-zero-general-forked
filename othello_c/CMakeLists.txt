@@ -8,6 +8,10 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
+# clock_gettime / CLOCK_MONOTONIC live behind _POSIX_C_SOURCE on glibc.
+# macOS exposes them unconditionally; Linux needs this feature-test macro.
+add_compile_definitions(_POSIX_C_SOURCE=200809L)
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()

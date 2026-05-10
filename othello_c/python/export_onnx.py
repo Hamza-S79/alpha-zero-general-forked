@@ -69,8 +69,9 @@ def main():
         out_name = os.path.basename(sidecar_pth)
         wrapper.save_checkpoint(folder=out_dir, filename=out_name)
 
-    inner = wrapper.nnet
-    inner.eval()
+    # NNetWrapper auto-moves the model to CUDA when available, but torch.onnx.export
+    # traces with a CPU sample below — keep both on CPU to avoid a device mismatch.
+    inner = wrapper.nnet.cpu().eval()
 
     export_model = _ExportWrapper(inner).eval()
 
