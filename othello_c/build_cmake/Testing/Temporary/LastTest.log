@@ -1,0 +1,105 @@
+Start testing: May 10 18:43 PKT
+----------------------------------------------------------
+1/5 Testing: othello_rules
+1/5 Test: othello_rules
+Command: "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/test_othello" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/fixture_othello.bin"
+Directory: /Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake
+"othello_rules" start time: May 10 18:43 PKT
+Output:
+----------------------------------------------------------
+Loaded 10000 records (N=6)
+OK: 10000 records (passes=161, terminals=298)
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"othello_rules" end time: May 10 18:43 PKT
+"othello_rules" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: tree_sanity
+2/5 Test: tree_sanity
+Command: "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/test_tree"
+Directory: /Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake
+"tree_sanity" start time: May 10 18:43 PKT
+Output:
+----------------------------------------------------------
+OK: 50000 boards visited, 41881 unique, 8119 dup-state hits, 0 hash collisions
+Tree lookup: 41881 slots verified
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"tree_sanity" end time: May 10 18:43 PKT
+"tree_sanity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: nn_parity
+3/5 Test: nn_parity
+Command: "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/test_nn" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/random_model.onnx" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/nn_fixture.bin"
+Directory: /Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake
+"nn_parity" start time: May 10 18:43 PKT
+Output:
+----------------------------------------------------------
+max |pi_pytorch - pi_c| = 1.304e-08
+max |v_pytorch  - v_c|  = 2.980e-08
+OK (64 records)
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"nn_parity" end time: May 10 18:43 PKT
+"nn_parity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: mcts_serial_parity
+4/5 Test: mcts_serial_parity
+Command: "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/test_mcts" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/random_model.onnx" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/mcts_fixture.bin"
+Directory: /Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake
+"mcts_serial_parity" start time: May 10 18:43 PKT
+Output:
+----------------------------------------------------------
+sims=50 cpuct=1.00
+max |pi_py - pi_c| = 0.0000e+00
+argmax: py=6 c=6
+python visit total: 49  (== sims expected: 50)
+non-zero pi rows:
+  a     py_visits  py_pi      c_pi      
+  6     13         0.2653     0.2653    
+  13    11         0.2245     0.2245    
+  22    12         0.2449     0.2449    
+  27    13         0.2653     0.2653    
+OK
+<end of output>
+Test time =   1.11 sec
+----------------------------------------------------------
+Test Passed.
+"mcts_serial_parity" end time: May 10 18:43 PKT
+"mcts_serial_parity" time elapsed: 00:00:01
+----------------------------------------------------------
+
+5/5 Testing: mcts_threaded
+5/5 Test: mcts_threaded
+Command: "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/test_mcts_threaded" "/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/tests/random_model.onnx"
+Directory: /Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake
+"mcts_threaded" start time: May 10 18:43 PKT
+Output:
+----------------------------------------------------------
+serial: argmax=13  gpu_calls=200  total_batch=200
+paral.: argmax=13  gpu_calls=49  mean_batch=4.08  collisions=186  wall=0.743s
+L1(pi_serial, pi_par) = 0.0947
+non-zero pi rows:
+  a=6    serial=0.2261   par=0.2448
+  a=13   serial=0.3015   par=0.2552
+  a=22   serial=0.2161   par=0.2448
+  a=27   serial=0.2563   par=0.2552
+OK
+<end of output>
+Test time =   1.98 sec
+----------------------------------------------------------
+Test Passed.
+"mcts_threaded" end time: May 10 18:43 PKT
+"mcts_threaded" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: May 10 18:43 PKT

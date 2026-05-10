@@ -1,0 +1,11 @@
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/othello_core.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/othello_c.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/bench_mcts.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test_othello.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test_tree.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test_nn.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test_mcts.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test_mcts_threaded.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/test.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/edit_cache.dir
+/Users/mbt/Downloads/alpha-zero-general-forked-master/othello_c/build_cmake/CMakeFiles/rebuild_cache.dir

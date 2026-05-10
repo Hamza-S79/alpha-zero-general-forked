@@ -1,0 +1,2 @@
+/usr/bin/ar qc libothello_core.a CMakeFiles/othello_core.dir/src/othello.c.o CMakeFiles/othello_core.dir/src/zobrist.c.o CMakeFiles/othello_core.dir/src/tree.c.o CMakeFiles/othello_core.dir/src/nn.c.o CMakeFiles/othello_core.dir/src/mcts.c.o CMakeFiles/othello_core.dir/src/coach.c.o CMakeFiles/othello_core.dir/src/arena.c.o
+/usr/bin/ranlib libothello_core.a
